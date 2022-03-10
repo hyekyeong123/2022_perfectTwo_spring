@@ -1,17 +1,24 @@
 package com.example.perfecttwo.order;
 
+import com.example.perfecttwo.AppConfig;
 import com.example.perfecttwo.member.Grade;
 import com.example.perfecttwo.member.Member;
 import com.example.perfecttwo.member.MemberService;
-import com.example.perfecttwo.member.MemberServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderServiceTest {
-    MemberService memberService = new MemberServiceImpl();
-    OrderService orderService = new OrderServiceImpl();
+    private MemberService memberService;
+    private OrderService orderService;
+
+    @BeforeEach
+    public void beforeEach(){
+        AppConfig appConfig = new AppConfig();
+        memberService = appConfig.memberService();;
+        orderService = appConfig.orderService();
+    }
 
     @Test
     void createOrder() {

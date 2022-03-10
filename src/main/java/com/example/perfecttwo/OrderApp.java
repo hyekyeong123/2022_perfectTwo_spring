@@ -3,15 +3,15 @@ package com.example.perfecttwo;
 import com.example.perfecttwo.member.Grade;
 import com.example.perfecttwo.member.Member;
 import com.example.perfecttwo.member.MemberService;
-import com.example.perfecttwo.member.MemberServiceImpl;
 import com.example.perfecttwo.order.Order;
 import com.example.perfecttwo.order.OrderService;
-import com.example.perfecttwo.order.OrderServiceImpl;
 
 public class OrderApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
-        OrderService orderService = new OrderServiceImpl();
+
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
 
         Long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
