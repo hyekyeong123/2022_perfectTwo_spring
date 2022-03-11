@@ -1,6 +1,8 @@
 package com.example.perfecttwo;
 
+import com.example.perfecttwo.discount.DiscountPolicy;
 import com.example.perfecttwo.discount.FixDiscountPolicy;
+import com.example.perfecttwo.discount.RateDiscountPolicy;
 import com.example.perfecttwo.member.MemberService;
 import com.example.perfecttwo.member.MemberServiceImpl;
 import com.example.perfecttwo.member.MemoryMemberRepository;
@@ -15,14 +17,26 @@ public class AppConfig {
     public MemberService memberService(){
 
         // MemoryMemberRepository 생성
-       return new MemberServiceImpl(new MemoryMemberRepository()); // 주입
+       return new MemberServiceImpl(memberRepository()); // 주입
         // 클라이언트인 memberServiceImpl 입장에서 보면 의존관계를 마치 외부에서 주입해주는 것 같다고 해서
         // DI(Dependency Injection) 우리말로 의존관계 주입 또는 의존성 주입이라 한다.
     }
 
     public OrderService orderService(){
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
+
+
+    // START ***** 구현 클래스 *****
+    private MemoryMemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    public DiscountPolicy discountPolicy(){
+        // return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
+    }
+    // END ***** 구현 클래스 *****
 }
 
 /*
