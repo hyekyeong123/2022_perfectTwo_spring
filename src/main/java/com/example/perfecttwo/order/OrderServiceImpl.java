@@ -4,7 +4,10 @@ import com.example.perfecttwo.discount.DiscountPolicy;
 import com.example.perfecttwo.member.Member;
 import com.example.perfecttwo.member.MemberRepository;
 import com.example.perfecttwo.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService{
     // Ver001 - 할인 정책을 변경하려면 클라이언트인 'OrderServiceImpl'을 변경해야 한다. - OCP 위판
     // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
@@ -14,6 +17,7 @@ public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
@@ -28,5 +32,10 @@ public class OrderServiceImpl implements OrderService{
         // 설계가 잘 된 이유 Order에서는 Discount를 몰라도 됌
         int discountPrice = discountPolicy.discount(member, itemPrice);
         return new Order(memberId, itemName, itemPrice, discountPrice);
+    }
+
+    // 테스트용
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
